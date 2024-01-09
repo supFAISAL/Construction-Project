@@ -1,0 +1,35 @@
+<nz-descriptions nzSize="small" [nzColumn]="3" style="margin-top: 20px" nzBordered>
+  <nz-descriptions-item nzTitle="رقم امر العمل">{{dataInfo.orderNumber}}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="نوع امر العمل">{{dataInfo.orderType}}</nz-descriptions-item>
+
+  <nz-descriptions-item nzTitle="نوع العقد">{{dataInfo.contractType}}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="تاريخ استلام امر العمل">{{dataInfo.orderDate | date: 'mediumDate'}}</nz-descriptions-item>
+
+  <nz-descriptions-item nzTitle="الفرع">{{dataInfo.place}}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="القيمة التقريبية">{{dataInfo.price}}</nz-descriptions-item>
+
+  <nz-descriptions-item nzTitle="تاريخ الإضافة">{{dataInfo.regDate | date: 'mediumDate'}}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="تم التحويل الى">{{dataInfo.moveTo}}</nz-descriptions-item>
+
+  <nz-descriptions-item nzTitle="ملاحظات">{{dataInfo.extraInfo}}</nz-descriptions-item>
+</nz-descriptions>
+
+<nz-descriptions nzSize="small" [nzColumn]="1" nzBordered>
+  <nz-descriptions-item nzTitle="الموقع">
+    <google-map height="300px" width="800px" [zoom]="zoom" [center]="center" [options]="options">
+      <map-marker
+        #somemarker="mapMarker"
+        *ngFor="let marker of markers"
+        [position]="marker.position"
+        [label]="marker.label"
+        [title]="marker.title"
+        [options]="marker.options"
+        (mapClick)="openInfo()"
+      >
+      </map-marker>
+      <map-info-window>hello</map-info-window>
+    </google-map>
+  </nz-descriptions-item>
+</nz-descriptions>
+
+

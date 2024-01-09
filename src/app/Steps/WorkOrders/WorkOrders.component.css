@@ -1,0 +1,28 @@
+.selectedRow {
+  background-color: skyblue;
+}
+
+.container {
+  border: 1px solid rgb(233, 230, 230);
+  border-radius: 10px;
+}
+.container-blue {
+  background-color: #3b90ff;
+  margin-bottom: 3%;
+  border: 1px solid rgb(233, 230, 230);
+  border-radius: 10px;
+}
+.table {
+  margin-top: 2%;
+}
+
+nz-select {
+  margin-right: 8px;
+  width: 100%;
+  text-align: right;
+  font-family: Tajawal;
+  font-size: medium;
+}
+td {
+  max-width: 50%;
+}

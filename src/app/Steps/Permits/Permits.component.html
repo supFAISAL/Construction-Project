@@ -1,0 +1,35 @@
+<div class="projects-section-header">
+  <h2 class="sectionHeader ">التصاريح</h2>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <input class="form-control me-2" id="myInput" type="text" placeholder="امر العمل" aria-label="Search" style="margin-top: 2%; width: 50%;">
+    </div>
+  </div>
+  <table dir="rtl" class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th style="text-align:center;" scope="col"><i class="fa fa-info"></i></th>
+        <th scope="col">رقم امر العمل</th>
+        <th scope="col">نوع امر العمل</th>
+        <th scope="col"></th>
+
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      <tr *ngFor="let u of Requests">
+        <td style="text-align:center;"> <app-InfoModal [dataInfo]="u.workOrder"></app-InfoModal> </td>
+        <td> {{u.workOrderNumber}} </td>
+        <td> {{u.department}} </td>
+        <td> <app-newPermitsModal [orderNumber]="u.workOrderNumber"></app-newPermitsModal></td>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <app-InfoModal></app-InfoModal>
+        </div>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+

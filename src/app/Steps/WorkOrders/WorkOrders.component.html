@@ -1,0 +1,245 @@
+<div class="container container-blue">
+  <h2 style="text-align: center; margin: 2%; color: white;">اوامر العمل</h2>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <input class="form-control me-2" id="myInput" type="text" placeholder="امر العمل" aria-label="Search" style="margin-top: 2%; width: 50%;">
+    </div>
+    <div class="col-sm" style="text-align: right;">
+      <button class="btn btn-primary" style="margin-top: 2%;" (click)="showModal()"> اضافة امر عمل </button>
+    </div>
+  </div>
+  <table dir="rtl" class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th style="text-align:center;" scope="col"><i class="fa fa-info"></i></th>
+        <th scope="col">رقم امر العمل</th>
+        <th scope="col">نوع امر العمل</th>
+        <!-- <th scope="col">الموقع</th> -->
+        <th scope="col">تاريخ استلام امر العمل</th>
+        <th scope="col">الفرع</th>
+        <th scope="col">نوع عقد</th>
+        <th scope="col">تاريخ التسجيل</th>
+        <th scope="col">تحويل الى</th>
+        <th scope="col">الحالة</th>
+        <th scope="col">تحديد</th>
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      <tr *ngFor="let u of dummyData" [class.selectedRow]="rowIsSelected(u.orderNumber)">
+        <td style="text-align:center;"> <app-InfoModal [dataInfo]="u"></app-InfoModal> </td>
+        <td>{{u.orderNumber}}</td>
+        <td>{{u.orderType}}</td>
+        <!-- <td (click)="openlocation(u.location)" style="cursor: pointer; color: blue;">{{u.location}}</td> -->
+        <td>{{u.orderDate | date: 'mediumDate'}}</td>
+        <td>{{u.place}}</td>
+        <td>{{u.contractType}}</td>
+        <td>{{u.regDate | date:'mediumDate'}}</td>
+        <td style="width: 30%"> <div class="row">
+          <div class="col-md-auto" *ngFor="let x of u.moveTo">
+              {{x}},
+          </div>
+        </div>
+
+        </td>
+        <td *ngIf="u.status === 'مرفوض'"><span class="badge bg-danger">{{u.status}}</span></td>
+        <td *ngIf="u.status === 'في انتظار التحويل'"><span class="badge bg-secondary">{{u.status}}</span></td>
+        <td *ngIf="u.status === 'جديد'"><span class="badge bg-primary">{{u.status}}</span></td>
+        <td style="text-align:center;"><input class="form-check-input" type="checkbox" (change)="onRowClick(u.orderNumber,$event)"></td>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <app-InfoModal></app-InfoModal>
+        </div>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<app-order-type-list></app-order-type-list>
+
+<nz-modal nzWidth="1000px" [nzFooter]="null" [(nzVisible)]="isVisible" nzTitle="إضافة أمر عمل" (nzOnCancel)="handleCancel()">
+  <ng-container *nzModalContent>
+    <form [formGroup]="newOrderForm" (ngSubmit)="onSubmit(newOrderForm)">
+      <div dir="rtl" class="modal-body">
+        <div class="row" style="margin-top: 2%;">
+          <div class="col-sm">
+            <label>رقم امر العمل</label>
+            <input class="form-control" type="text" formControlName="orderNumber">
+          </div>
+          <div class="col-sm">
+            <label >نوع امر العمل</label><nz-divider nzType="vertical"></nz-divider><a style="color:blue;" (click)="OpenInfoModal()">info</a>
+            <nz-select nzShowSearch nzAllowClear  formControlName="orderType">
+              <nz-option *ngFor="let p of orderType" [nzValue]="p.type" [nzLabel]="p.description? p.type + ' | ' + p.description : p.type"></nz-option>
+            </nz-select>
+          </div>
+          <div class="col-sm">
+            <label >نوع العقد</label>
+            <nz-select nzShowSearch nzAllowClear  formControlName="contractType">
+              <nz-option *ngFor="let p of contractType" [nzValue]="p.type" [nzLabel]="p.description? p.type + ' | ' + p.description : p.type"></nz-option>
+            </nz-select>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 2%;">
+          <div class="col-sm">
+            <label >تاريخ استلام امر العمل</label>
+            <nz-date-picker class="form-control" formControlName="orderDate"></nz-date-picker>
+          </div>
+          <div class="col-sm">
+            <label >الفرع</label>
+            <select class="form-select" formControlName="place"  aria-label="Default select example">
+              <option value="جدة">جدة</option>
+              <option value="مكة">مكة</option>
+              <option value="جازان">جازان</option>
+            </select>
+          </div>
+          <div class="col-sm">
+            <label >القيمة التقريبية</label>
+            <input class="form-control" type="text" formControlName="price">
+          </div>
+        </div>
+        <div class="row" style="margin-top: 2%;">
+          <div class="col-sm">
+            <label >الموقع</label>
+            <input class="form-control" type="text" formControlName="location">
+          </div>
+          <div class="row" style="margin-top: 2%;">
+            <div class="col-sm">
+              <span >تحويل الى</span>
+              <nz-select  formControlName="department">
+                <nz-option *ngFor="let p of departmentData" [nzValue]="p" [nzLabel]="p"></nz-option>
+              </nz-select>
+              <!--<nz-select formControlName="employee" [(ngModel)]="selectedEmployee">
+                <nz-option *ngFor="let c of employeeData[selectedDepartment]" [nzValue]="c" [nzLabel]="c"></nz-option>
+              </nz-select>-->
+              <nz-select [nzMaxTagCount]="5" [nzMaxTagPlaceholder]="tagPlaceHolder" nzMode="tags" nzPlaceHolder="Please select" formControlName="moveTo">
+                <nz-option *ngFor="let item of employeeData[this.newOrderForm.value.department]" [nzLabel]="item" [nzValue]="item"></nz-option>
+              </nz-select>
+              <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more selected</ng-template>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 2%;">
+          <div class="col">
+            <span >ملاحظات</span>
+            <textarea formControlName="extraInfo" class="form-control" aria-label="With textarea"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm">
+            <label >ارفاق المستندات</label>
+            <nz-upload
+            (nzChange)="handleChange($event)"
+            nzMultiple="true"
+            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            nzListType="picture-card"
+            [nzPreview]="handlePreview"
+          >
+            <div>
+              <i class="fa fa-plus"></i>
+              <div style="margin-top: 8px">Upload</div>
+            </div>
+          </nz-upload>
+          <nz-modal
+            [nzVisible]="previewVisible"
+            [nzContent]="modalContent"
+            [nzFooter]="null"
+            (nzOnCancel)="previewVisible = false"
+          >
+            <ng-template #modalContent>
+              <img [src]="previewImage" [ngStyle]="{ width: '100%' }" alt="previewImage"/>
+            </ng-template>
+          </nz-modal>
+          </div>
+        </div>
+      </div>
+      <button [disabled]="newOrderForm.invalid" nz-button nzType="primary">Save Changes</button>
+      <button nz-button nzType="default" (click)="handleCancel()">Close</button>
+    </form>
+  </ng-container>
+</nz-modal>
+
+
+
+<!--
+
+
+
+<div class="modal fade" id="formInputModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">اضافة امر عمل</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form [formGroup]="newOrderForm" (ngSubmit)="onSubmit(newOrderForm)">
+        <div dir="rtl" class="modal-body">
+          <div class="row" style="margin-top: 2%;">
+            <div class="col-sm">
+              <span >رقم امر العمل</span>
+              <input class="form-control" type="text" formControlName="workOrderNumber">
+            </div>
+            <div class="col-sm">
+              <span >نوع امر العمل</span>
+              <select class="form-select" formControlName="workOrderType"  aria-label="Default select example">
+
+                <option value="برامج">برامج</option>
+                <option value="تركيبات">تركيبات</option>
+                <option value="حفريات">حفريات</option>
+              </select>
+            </div>
+            <div class="col-sm">
+              <span >نوع العقد</span>
+              <input class="form-control" type="text" formControlName="contractType">
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 2%;">
+            <div class="col-sm">
+              <span >القسم</span>
+              <input class="form-control" type="text" formControlName="department">
+            </div>
+            <div class="col-sm">
+              <span >الفرع</span>
+              <input class="form-control" type="text" formControlName="subDep">
+            </div>
+            <div class="col-sm">
+              <span >القيمة التقريبية</span>
+              <input class="form-control" type="text" formControlName="priceCloseup">
+            </div>
+          </div>
+          <div class="row" style="margin-top: 2%;">
+            <div class="col-sm">
+              <span >الموقع</span>
+              <input class="form-control" type="text" formControlName="location">
+            </div>
+            <div class="col-sm">
+              <span >ارفاق المستندات</span>
+              <input class="form-control" type="file" id="formFileMultiple" multiple (change)="onSelectFile($event)">
+            </div>
+          </div>
+          <div class="row" style="margin-top: 2%;">
+            <div class="col-sm">
+              <span >تحويل الى</span>
+              <select (change)="addMoveToData($event)" class="form-select" formArrayName="moveTo" multiple aria-label="multiple select example">
+                <option selected>....</option>
+                <option value="برامح">برامح</option>
+                <option value="تركيبات">تركيبات</option>
+                <option value="حفريات">حفريات</option>
+              </select>
+            </div>
+            <div class="col-sm">
+              <span >ملاحظات</span>
+              <textarea class="form-control" aria-label="With textarea"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button [disabled]="newOrderForm.invalid" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> -->

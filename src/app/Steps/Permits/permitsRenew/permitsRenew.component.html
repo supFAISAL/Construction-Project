@@ -1,0 +1,82 @@
+<button nzShape="round" (click)="showModal()" style="font-family: Tajawal;" nz-button nzType="primary">تجديد</button>
+<nz-modal nzWidth="1000px" [nzFooter]="modalFooter" [(nzVisible)]="modalVisbility" nzTitle="تجديد التصريح" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+<ng-container *nzModalContent>
+  <!-- New Permits Form -->
+  <form nz-form [formGroup]="permitRenewForm" (ngSubmit)="onSubmit(permitRenewForm)">
+    <div class="row" style="margin-top: 2%;">
+      <div class="col-sm">
+        <nz-form-item>
+          <nz-form-label nzRequired>رقم التصريح</nz-form-label>
+          <nz-form-control nzErrorTip="الرجاء تعبئة الحقول المطلوبة">
+            <input [ngModel]="permitData.permitNumber" class="form-control" nz-input formControlName="permitNumber" />
+          </nz-form-control>
+        </nz-form-item>
+        </div>
+        <div class="col-sm">
+          <nz-form-item>
+            <nz-form-label nzRequired>نوع التصريح</nz-form-label>
+            <nz-form-control nzErrorTip="الرجاء تعبئة الحقول المطلوبة">
+              <nz-select [ngModel]="permitData.permitType" nzDisabled formControlName="permitType">
+                <nz-option [nzValue]="permitData.permitType" [nzLabel]="permitData.permitType"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="col-sm">
+          <nz-form-item>
+            <nz-form-label nzRequired>صلاحية التصريح</nz-form-label>
+            <nz-form-control nzErrorTip="الرجاء تعبئة الحقول المطلوبة">
+              <nz-range-picker dir="ltr" formControlName="permitValidity"></nz-range-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        </div>
+        <div class="row" style="margin-top: 2%;">
+          <div class="col-sm">
+            <nz-form-item>
+              <nz-form-label nzRequired>إرفاق المستندات</nz-form-label>
+              <nz-form-control nzErrorTip="الرجاء تعبئة الحقول المطلوبة">
+                <nz-upload
+          (nzChange)="handleChange($event)"
+           nzMultiple="true"
+           nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+           nzListType="picture-card"
+           [nzPreview]="handlePreview"
+         >
+           <div>
+             <i class="fa fa-plus"></i>
+             <div style="margin-top: 8px">Upload</div>
+           </div>
+         </nz-upload>
+         <nz-modal
+           [nzVisible]="previewVisible"
+           [nzContent]="modalContent"
+           [nzFooter]="null"
+           (nzOnCancel)="previewVisible = false"
+         >
+           <ng-template #modalContent>
+             <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+           </ng-template>
+         </nz-modal>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 2%;">
+          <div class="col-sm">
+            <nz-form-item>
+              <nz-form-label>ملاحظات</nz-form-label>
+              <nz-form-control >
+                <textarea formControlName="notes" nz-input rows="2" placeholder="يرجى كتابة الملاحظات إن وجدت"></textarea>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+  </form>
+  <!-- new Permits Form End -->
+</ng-container>
+<ng-template #modalFooter>
+  <button nz-button nzType="default" (click)="handleCancel()">Close</button>
+  <button nz-button nzType="primary"(click)="onSubmit(permitRenewForm)">Submit</button>
+</ng-template>
+</nz-modal>

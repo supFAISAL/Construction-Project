@@ -1,0 +1,10 @@
+<nz-descriptions *ngFor="let permit of permitsData" nzSize="small" [nzColumn]="4" style="margin-top: 20px" nzBordered>
+  <nz-descriptions-item nzTitle="رقم التصريح">{{permit.permitNumber}}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="نوع التصريح">{{permit.permitType}}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="صلاحية التصريح">
+    {{permit.permitValidity[0].toLocaleDateString('en-US')}} To {{permit.permitValidity[1].toLocaleDateString('en-US')}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="تجديد التصريح">
+    <app-permitsRenew [permitData]="permit" [workOrderNumber]="dataInfo.orderNumber"></app-permitsRenew>
+  </nz-descriptions-item>
+</nz-descriptions>

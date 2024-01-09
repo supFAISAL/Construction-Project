@@ -1,0 +1,38 @@
+.selectedRow {
+    background-color: skyblue;
+  }
+
+  .container {
+    border: 1px solid rgb(233, 230, 230); 
+    border-radius: 10px;
+  }
+  .container-blue {
+    background-color: #3b90ff; 
+    margin-bottom: 3%;  
+    border: 1px solid rgb(233, 230, 230); 
+    border-radius: 10px;
+  }
+  .table {
+    margin-top: 2%;
+  }
+
+  .sectionHeader{
+    color: #FFFFFF;
+    padding:4px 12px;
+    height:45px;
+    font-family: Tajawal;
+    font-weight: lighter;
+    background:#3b90ff;
+    border-radius: 50px;
+    font-size: x-large;
+  }
+
+  .projects-section-header {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    margin: 2%;
+    color: #1f1c2e;
+    justify-content: flex-end;
+
+  }

@@ -1,0 +1,27 @@
+.modalHeader{
+  font-family: Almarai;
+  padding-left: 10px;
+  font-weight: bolder;
+}
+
+[nz-button] {
+  font-family: almarai;
+  font-size: 15px;
+}
+nz-select {
+  margin-right: 8px;
+  width: 100%;
+  text-align: right;
+  font-family: Tajawal;
+  font-size: medium;
+}
+::ng-deep.ant-select-item-option-content{
+  text-align: right;
+  font-family: almarai;
+
+}
+
+::ng-deep.ant-form-item-label>label{
+  font-family: almarai;
+
+}

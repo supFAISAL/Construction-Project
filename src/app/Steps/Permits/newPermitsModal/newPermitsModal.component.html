@@ -1,0 +1,160 @@
+<!-- <button
+  data-bs-toggle="modal"
+  data-bs-target="#permitsModal"
+  type="button"
+  class="btn btn-outline-primary btn-sm"
+  style="font-family: almarai"
+>
+  <i class="fa fa-plus" style="padding-left: 7px"></i> إضافة تصريح
+</button>
+<div
+  class="modal fade"
+  id="permitsModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" dir="rtl">
+        <h5
+          class="modal-title modalHeader"
+          id="exampleModalLabel"
+        >
+          إضافة تصريح
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="newPermitsForm" (ngSubmit)="onSubmit(newPermitsForm)">
+          <div dir="rtl" class="modal-body">
+            <div class="row" style="margin-top: 2%;">
+              <div class="col-sm">
+                <label>رقم التصريح</label>
+                <input class="form-control" type="text" formControlName="permitsNumber">
+              </div>
+              <div class="col-sm">
+                <label>نوع التصريح</label>
+                <select class="form-select" formControlName="permitsType"  aria-label="Default select example">
+                  <option value="برامج">برامج</option>
+                  <option value="تركيبات">تركيبات</option>
+                  <option value="حفريات">حفريات</option>
+                </select>
+              </div>
+              <div class="col-sm">
+                <label>صلاحية التصريح</label>
+                <input type="text" ngxDaterangepickerMd class="form-control" formControlName="permitValidity"/>
+              </div>
+            </div>   
+            <div class="row" style="margin-top: 2%;">
+              <div class="col-sm">
+                <label>ارفاق المستندات</label>
+                <input class="form-control" type="file" id="formFileMultiple" multiple (change)="onSelectFile($event)">
+              </div>
+            </div>
+            <div class="row" style="margin-top: 2%;">
+              <div class="col-sm">
+                <label>ملاحظات</label>
+                <textarea class="form-control" aria-label="With textarea"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button [disabled]="newPermitsForm.invalid" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+ -->
+ <button nz-button nzType="primary" (click)="showModal()"><i class="fa fa-plus" style="padding-left: 7px"></i>إضافة تصريح</button>
+<nz-modal [nzFooter]="modalFooter" nzWidth="1000px" [(nzVisible)]="modalVisbility" nzTitle="إضافة تصريح" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <!-- New Permits Form -->
+    <form nz-form [formGroup]="newPermitsForm" (ngSubmit)="onSubmit(newPermitsForm)">
+      <div class="row" style="margin-top: 2%;">
+        <div class="col-sm">
+          <nz-form-item>
+            <nz-form-label nzRequired>رقم التصريح</nz-form-label>
+            <nz-form-control nzErrorTip="الرجاء تعبئة الحقول المطلوبة">
+              <input class="form-control" nz-input formControlName="permitNumber" />
+            </nz-form-control>
+          </nz-form-item>
+          </div>
+          <div class="col-sm">
+            <nz-form-item>
+              <nz-form-label nzRequired>نوع التصريح</nz-form-label>
+              <nz-form-control nzErrorTip="الرجاء تعبئة الحقول المطلوبة">
+                <nz-select formControlName="permitType">
+                  <nz-option  *ngFor="let type of permitsTypes" [nzLabel]="type" [nzValue]="type"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div class="col-sm">
+            <nz-form-item>
+              <nz-form-label nzRequired>صلاحية التصريح</nz-form-label>
+              <nz-form-control nzErrorTip="الرجاء تعبئة الحقول المطلوبة">
+                <nz-range-picker dir="ltr" formControlName="permitValidity"></nz-range-picker>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          </div>
+          <div class="row" style="margin-top: 2%;">
+            <div class="col-sm">
+              <nz-form-item>
+                <nz-form-label nzRequired>إرفاق المستندات</nz-form-label>
+                <nz-form-control nzErrorTip="الرجاء تعبئة الحقول المطلوبة">
+                  <nz-upload
+            (nzChange)="handleChange($event)"
+             nzMultiple="true"
+             nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+             nzListType="picture-card"
+             [nzPreview]="handlePreview"
+           >
+             <div>
+               <i class="fa fa-plus"></i>
+               <div style="margin-top: 8px">Upload</div>
+             </div>
+           </nz-upload>
+           <nz-modal
+             [nzVisible]="previewVisible"
+             [nzContent]="modalContent"
+             [nzFooter]="null"
+             (nzOnCancel)="previewVisible = false"
+           >
+             <ng-template #modalContent>
+               <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+             </ng-template>
+           </nz-modal>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 2%;">
+            <div class="col-sm">
+              <nz-form-item>
+                <nz-form-label>ملاحظات</nz-form-label>
+                <nz-form-control >
+                  <textarea formControlName="notes" nz-input rows="2" placeholder="يرجى كتابة الملاحظات إن وجدت"></textarea>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+    </form>
+    <!-- new Permits Form End -->
+  </ng-container>
+  <ng-template #modalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Close</button>
+    <button nz-button nzType="primary"(click)="onSubmit(newPermitsForm)">Submit</button>
+  </ng-template>
+</nz-modal>
+

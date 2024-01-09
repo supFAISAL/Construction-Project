@@ -1,0 +1,26 @@
+.spanLabel{
+    font-family: Tajawal;
+    font-size: 17px;
+    font-weight: bolder;
+}
+
+.spanData{
+    font-family: Tajawal;
+    font-size: 15px;
+    font-weight: bold;
+}
+.btnStyle{
+    margin-right: 10px;
+}
+
+::ng-deep.ant-descriptions-bordered .ant-descriptions-item-label{
+    font-size: 15px;
+    font-weight: bold;
+    font-family: Tajawal;
+}
+
+::ng-deep.ant-descriptions-bordered .ant-descriptions-item-content{
+direction: initial;
+font-family: Tajawal;
+font-size: 15px;
+}

@@ -1,0 +1,10 @@
+::ng-deep.ant-modal-body{
+    direction: rtl;
+}
+
+::ng-deep.ant-modal-title{
+    text-align: right;
+    font-family: almarai;
+    margin-right: 30px;
+    font-size: 20px;
+}

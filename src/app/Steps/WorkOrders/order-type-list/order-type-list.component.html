@@ -1,0 +1,18 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <nz-table  #basicTable [nzData]="orderType" [nzPageSize]="100" [nzScroll]="{ y: '500px' }">
+      <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>{{data.type}}</td>
+        <td>{{data.description}}</td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+</nz-modal>
